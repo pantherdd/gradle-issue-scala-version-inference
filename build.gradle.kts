@@ -6,6 +6,13 @@ plugins {
 val scalaLibraryVersion = "2.13.12"
 
 repositories {
+    ivy {
+        url = uri(projectDir.resolve("ivy-repo"))
+        layout("ivy")
+        content {
+            includeVersion("org.scala-lang", "scala-library", scalaLibraryVersion)
+        }
+    }
     mavenCentral()
 }
 
