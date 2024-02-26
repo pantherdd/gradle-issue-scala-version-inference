@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<ivy-module version="1.0">
+    <info organisation="org.scala-lang" module="scala-library" revision="2.13.12" status="release"/>
+    <configurations>
+        <conf name="default"/>
+        <conf name="sources"/>
+    </configurations>
+    <publications>
+        <artifact name="scala-library-2.x" ext="jar" type="jar" conf="default"/>
+        <artifact name="scala-library-2.x-sources" ext="jar" type="source" conf="sources"/>
+    </publications>
+</ivy-module>
