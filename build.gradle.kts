@@ -32,3 +32,19 @@ tasks.test {
 application {
     mainClass.set("demo.App")
 }
+
+// Reverse-engineered from `ScalaRuntime.inferScalaClasspath` and `ScalaRuntimeHelper.SCALA_JAR_PATTERN`
+fun forceInferScalaClasspath(classpath: FileCollection, version: String): FileCollection {
+    val scalaJarPattern = Regex("(scala3?-(library|library_3)-)(\\d.*)(.jar)")
+    val scalaJarReplace = "$1${Regex.escapeReplacement(version)}$4"
+    val invalidClasspathThatScalaVersionCanBeInferredFrom = classpath.map {
+        it.resolveSibling(scalaJarPattern.replace(it.name, scalaJarReplace))
+    }
+    return scalaRuntime.inferScalaClasspath(invalidClasspathThatScalaVersionCanBeInferredFrom)
+}
+tasks.withType<ScalaCompile> {
+    scalaClasspath = forceInferScalaClasspath(classpath, scalaLibraryVersion)
+}
+tasks.withType<ScalaDoc> {
+    scalaClasspath = forceInferScalaClasspath(classpath, scalaLibraryVersion)
+}
